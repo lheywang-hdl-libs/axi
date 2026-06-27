@@ -19,7 +19,9 @@ interface axi_st #(
     parameter int TUSER_WIDTH = 1
 );
 
-    // Mandatory signals
+    // =============================
+    // SIGNALS
+    // =============================
     logic                               tvalid;
     logic                               tready;
     logic [TDATA_WIDTH -1 : 0]          tdata;
@@ -31,6 +33,9 @@ interface axi_st #(
     logic [TUSER_WIDTH : 0]             tuser;
     logic                               twakeup;
 
+    // =============================
+    // SOURCE
+    // =============================
     modport source (
         output  tvalid,
         output  tdata,
@@ -44,6 +49,9 @@ interface axi_st #(
         input   tready
     );
 
+    // =============================
+    // SINK
+    // =============================
     modport sink (
         input   tvalid,
         input   tdata,

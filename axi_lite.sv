@@ -138,6 +138,9 @@ interface axi_lite #(
     // poison
     logic                               rpoison;
 
+    // =============================
+    // MASTER
+    // =============================
     modport master (
         // AW Channel
         output  awaddr,
@@ -192,6 +195,9 @@ interface axi_lite #(
         input   rpoison
     );
 
+    // =============================
+    // CLIENT
+    // =============================
     modport client (
         // AW Channel
         input   awaddr,
