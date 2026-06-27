@@ -13,129 +13,237 @@
 */
 
 interface axi_lite #(
-    parameter int ADDR_WIDTH = 32,
-    parameter int DATA_WIDTH = 32,
-    parameter int ID_W_WIDTH = 0,
-    parameter int USER_REQ_WIDTH = 0,
-    parameter int USER_RESP_WIDTH = 0,
-    parameter int SUBSYSID_WIDTH = 0,
-    parameter int USER_DATA_WIDTH = 0,
-    parameter int BRESP_WIDTH = 2
+    parameter int                       ADDR_WIDTH = 32,
+    parameter int                       DATA_WIDTH = 32,
+    parameter int                       ID_W_WIDTH = 0,
+    parameter int                       USER_REQ_WIDTH = 0,
+    parameter int                       USER_RESP_WIDTH = 0,
+    parameter int                       SUBSYSID_WIDTH = 0,
+    parameter int                       USER_DATA_WIDTH = 0,
+    parameter int                       BRESP_WIDTH = 2
 );
 
     // =============================
     // AW CHANNEL (ADDR)
     // =============================
     // address
-    logic [ADDR_WIDTH - 1 : 0] awaddr;
+    logic [ADDR_WIDTH - 1 : 0]          awaddr;
 
     // handshake
-    logic awvalid;
-    logic awready;
+    logic                               awvalid;
+    logic                               awready;
 
     // protection
-    logic [2 : 0] awprot;
+    logic [2 : 0]                       awprot;
 
     // id
-    logic [ID_W_WIDTH : 0] awid;
-    logic [SUBSYSID_WIDTH : 0] awsubsysid;
-    logic awidunq;
+    logic [ID_W_WIDTH : 0]              awid;
+    logic [SUBSYSID_WIDTH : 0]          awsubsysid;
+    logic                               awidunq;
 
     // size
-    logic [2 : 0] awsize;
+    logic [2 : 0]                       awsize;
 
     // user
-    logic [USER_REQ_WIDTH : 0] awuser;
+    logic [USER_REQ_WIDTH : 0]          awuser;
 
     // trace
-    logic awtrace;
+    logic                               awtrace;
 
     // wake up
-    logic awakeup;
+    logic                               awakeup;
 
     // =============================
     // W CHANNEL (DATA)
     // =============================
     // data
-    logic [DATA_WIDTH - 1 : 0] wdata;
+    logic [DATA_WIDTH - 1 : 0]          wdata;
 
     // handshake
-    logic wvalid;
-    logic wready;
+    logic                               wvalid;
+    logic                               wready;
 
     // user
-    logic [USER_DATA_WIDTH : 0] wuser;
+    logic [USER_DATA_WIDTH : 0]         wuser;
 
     // strobe
-    logic [(DATA_WIDTH / 8) - 1 : 0] wstrb;
+    logic [(DATA_WIDTH / 8) - 1 : 0]    wstrb;
 
     // poison
-    logic wpoison;
+    logic                               wpoison;
 
     // =============================
     // B CHANNEL (RESP)
     // =============================
     // response
-    logic [BRESP_WIDTH : 0] bresp;
+    logic [BRESP_WIDTH - 1: 0]          bresp;
 
     // handshake
-    logic bvalid;
-    logic bready;
+    logic                               bvalid;
+    logic                               bready;
 
     // id
-    logic [ID_W_WIDTH : 0] bid;
-    logic bidunq;
+    logic [ID_W_WIDTH : 0]              bid;
+    logic                               bidunq;
 
     // user
-    logic [USER_RESP_WIDTH : 0] buser;
+    logic [USER_RESP_WIDTH : 0]         buser;
 
     // trace
-    logic btrace;
+    logic                               btrace;
 
     // =============================
     // AR CHANNEL (ADDR)
     // =============================
     // address
-    logic [ADDR_WIDTH - 1 : 0] araddr;
+    logic [ADDR_WIDTH - 1 : 0]          araddr;
 
     // handshake
-    logic arvalid;
-    logic arready;
-    logic [2 : 0] arprot;
+    logic                               arvalid;
+    logic                               arready;
+    logic [2 : 0]                       arprot;
 
     // id
-    logic [ID_W_WIDTH : 0] arid;
-    logic [SUBSYSID_WIDTH : 0] arsubsysid;
-    logic aridunq;
+    logic [ID_W_WIDTH : 0]              arid;
+    logic [SUBSYSID_WIDTH : 0]          arsubsysid;
+    logic                               aridunq;
 
     // user
-    logic [USER_REQ_WIDTH : 0] aruser;
+    logic [USER_REQ_WIDTH : 0]          aruser;
 
     // trace
-    logic artrace;
+    logic                               artrace;
 
     // =============================
     // R CHANNEL (DATA)
     // =============================
     // data & response
-    logic [DATA_WIDTH - 1 : 0] rdata;
-    logic [BRESP_WIDTH : 0] rresp;
+    logic [DATA_WIDTH - 1 : 0]          rdata;
+    logic [BRESP_WIDTH - 1: 0]          rresp;
 
     // handshake
-    logic rvalid;
-    logic rready;
+    logic                               rvalid;
+    logic                               rready;
 
     // id
-    logic [ID_W_WIDTH : 0] rid;
-    logic ridunq;
+    logic [ID_W_WIDTH : 0]              rid;
+    logic                               ridunq;
 
     // user
-    logic [USER_RESP_WIDTH : 0] ruser;
+    logic [USER_RESP_WIDTH : 0]         ruser;
 
     // trace
-    logic rtrace;
+    logic                               rtrace;
 
     // poison
-    logic rpoison;
+    logic                               rpoison;
+
+    modport master (
+        // AW Channel
+        output  awaddr,
+        output  awvalid,
+        input   awready,
+        output  awprot,
+        output  awid,
+        output  awsubsysid,
+        output  awidunq,
+        output  awsize,
+        output  awuser,
+        output  awtrace,
+        output  awakeup,
+
+        // W channel
+        output  wdata,
+        output  wvalid,
+        input   wready,
+        output  wuser,
+        output  wstrb,
+        output  wpoison,
+
+        // B channel
+        input   bresp,
+        input   bvalid,
+        output  bready,
+        input   bid,
+        input   bidunq,
+        input   buser,
+        input   btrace,
+
+        // AR channel
+        output  araddr,
+        output  arvalid,
+        input   arready,
+        output  arprot,
+        output  arid,
+        output  arsubsysid,
+        output  aridunq,
+        output  aruser,
+        output  artrace,
+
+        // R channel
+        input   rdata,
+        input   rresp,
+        input   rvalid,
+        output  rready,
+        input   rid,
+        input   ridunq,
+        input   ruser,
+        input   rtrace,
+        input   rpoison
+    );
+
+    modport client (
+        // AW Channel
+        input   awaddr,
+        input   awvalid,
+        output  awready,
+        input   awprot,
+        input   awid,
+        input   awsubsysid,
+        input   awidunq,
+        input   awsize,
+        input   awuser,
+        input   awtrace,
+        input   awakeup,
+
+        // W channel
+        input   wdata,
+        input   wvalid,
+        output  wready,
+        input   wuser,
+        input   wstrb,
+        input   wpoison,
+
+        // B channel
+        output  bresp,
+        output  bvalid,
+        input   bready,
+        output  bid,
+        output  bidunq,
+        output  buser,
+        output  btrace,
+
+        // AR channel
+        input   araddr,
+        input   arvalid,
+        output  arready,
+        input   arprot,
+        input   arid,
+        input   arsubsysid,
+        input   aridunq,
+        input   aruser,
+        input   artrace,
+
+        // R channel
+        output  rdata,
+        output  rresp,
+        output  rvalid,
+        input   rready,
+        output  rid,
+        output  ridunq,
+        output  ruser,
+        output  rtrace,
+        output  rpoison
+    );
 
 endinterface: axi_lite
